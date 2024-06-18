@@ -1,0 +1,13 @@
+<div class="pokemon-card">
+    <h2>{{ pokemonInfo.name }}</h2>
+    @if (pokemonData) {
+        <img src="{{pokemonData.sprites.front_default}}" alt="">
+        <img src="{{pokemonData.sprites.back_default}}" alt="">
+        <div id="types">            
+            @for (type of pokemonData.types; track type) {
+                <p class="type type-{{type.type.name}}">{{type.type.name}}</p>
+            }
+        </div>
+        
+    }
+</div>

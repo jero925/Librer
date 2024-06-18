@@ -1,0 +1,9 @@
+@if (pokemonResults$ | async; as resultObject) {
+    <ul class="pokemon-list">
+        @for (pokemon of resultObject.results; track pokemon.name) {
+            <li>
+                <app-pokemon-item [pokemonInfo]="pokemon"/>
+            </li>
+        }
+    </ul>
+}
