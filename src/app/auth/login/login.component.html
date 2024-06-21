@@ -1,1 +1,38 @@
-<p>login works!</p>
+<div class="card-container">
+     <mat-card>
+          <mat-card-header>
+               <mat-card-title>Iniciar Sesión</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+               <form class="form-custom" [formGroup]="loginForm" (ngSubmit)="login()">
+
+                    <mat-form-field class="input-custom">
+                         <mat-label>Usuario</mat-label>
+                         <input matInput placeholder="Ingrese su nombre de usuario..." formControlName="user">
+                         <mat-icon matPrefix>person</mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field class="input-custom">
+                         <mat-label>Contraseña</mat-label>
+                         <input matInput placeholder="Ingrese su contraseña..." formControlName="password" [type]="hiddenPassword ? 'password' : 'text'" />   
+                         <mat-icon matPrefix>lock</mat-icon>
+                         <button
+                           mat-icon-button
+                           matSuffix
+                           (click)="hidePassword()"
+                           [attr.aria-label]="'Hide password'"
+                           [attr.aria-pressed]="hiddenPassword"
+                         >
+                         <mat-icon matSuffix>{{hiddenPassword ? 'visibility_off' : 'visibility'}}</mat-icon>           
+                         </button>                               
+                    </mat-form-field>
+
+                    <div class="flex">
+                         <button mat-flat-button color="primary" type="submit" [disabled]="!loginForm.valid">Iniciar Sesion</button>
+                         <button mat-flat-button color="warn" (click)="register()">Registrarse</button>
+                    </div>
+               </form>
+          </mat-card-content>
+     </mat-card>
+
+</div>
