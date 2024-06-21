@@ -1,9 +1,33 @@
 <nav>
-    <ul>
-        <li><a routerLink="" routerLinkActive="">Libros</a></li>
-        <li><a routerLink="/pokedex" routerLinkActive="active">Pokédex</a></li>
-        <li><a routerLink="/register" routerLinkActive="active">Registro</a></li>
-        <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
-        <li><a routerLink="/login" routerLinkActive="active">Logout</a></li>
-    </ul>
+    <mat-toolbar>
+        <!-- <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+    </button> -->
+        <span>Proyecto Angular</span>
+        <ul>
+            <li><button mat-button routerLink="" routerLinkActive="">Libros</button></li>
+            <li><button mat-button routerLink="/pokedex" routerLinkActive="active">Pokédex</button></li>
+        </ul>
+        <span class="example-spacer"></span>
+
+        <a mat-button href="https://github.com/jero925/Librero" target="_blank" aria-label="Repositorio GitHub"
+            class="example-flex-container">
+            <mat-icon svgIcon="github">github</mat-icon>
+            Github
+        </a>
+
+        <div id="SEPARADOR">
+            <a><button mat-button routerLink="/register" routerLinkActive="">Registro</button></a>
+            <a>/</a>
+            <a><button mat-button routerLink="/login" routerLinkActive="">Login</button></a>
+        </div>
+
+        <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon" [matMenuTriggerFor]="beforeMenu">
+            <mat-icon>person</mat-icon>
+            <mat-menu #beforeMenu="matMenu" xPosition="before">
+                <button mat-menu-item>Mi cuenta</button>
+                <button mat-menu-item>Salir</button>
+            </mat-menu>
+        </button>
+    </mat-toolbar>
 </nav>

@@ -1,7 +1,3 @@
-nav {
-    margin-top: 20px;
-}
-
 nav ul {
     display: flex;
     justify-content: center;
@@ -10,11 +6,29 @@ nav ul {
 }
 
 nav ul li {
-    padding: 10px 20px;
-    background-color: lightblue;
     cursor: pointer;
 }
 
+
 .active {
-    font-weight: bold;
+    background-color: rgb(197, 197, 197);
+}
+
+button {
+    border: 0;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+.example-flex-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.example-flex-container mat-icon {
+    width: 24px;
+    height: 24px;
 }
