@@ -14,7 +14,7 @@
 
         <a mat-button href="https://github.com/jero925/Librero" target="_blank" aria-label="Repositorio GitHub"
             class="example-flex-container">
-            <mat-icon svgIcon="github">github</mat-icon>
+            <mat-icon svgIcon="github"></mat-icon>
             Github
         </a>
 
@@ -31,8 +31,14 @@
             [matMenuTriggerFor]="beforeMenu">
             <mat-icon>person</mat-icon>
             <mat-menu #beforeMenu="matMenu" xPosition="before">
-                <button mat-menu-item>Mi cuenta</button>
-                <button mat-menu-item (click)="onClickLogout()">Salir</button>
+                <button mat-menu-item>
+                    <mat-icon>account_circle</mat-icon>
+                    <span>Mi cuenta</span>
+                </button>
+                <button mat-menu-item (click)="onClickLogout()">
+                    <mat-icon>logout</mat-icon>
+                    <span>Salir</span>
+                </button>
             </mat-menu>
         </button>
         }

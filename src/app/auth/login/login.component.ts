@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LoginForm, LoginResults } from '../../core/interfaces/login';
-import { LoginService } from '../../core/services/login.service';
+import { AuthService } from '../../core/services/auth.service';
 import { Observable } from 'rxjs';
 import { Router, RouterLink } from '@angular/router';
 
@@ -22,7 +22,7 @@ export class LoginComponent {
 
   hiddenPassword: boolean = true;
 
-  constructor(private formBuilder: FormBuilder, private loginService: LoginService, private router: Router) { };
+  constructor(private formBuilder: FormBuilder, private AuthService: AuthService, private router: Router) { };
 
   public loginResults$!: Observable<LoginResults>;
 
@@ -31,7 +31,7 @@ export class LoginComponent {
     password: ['', Validators.required]
   });
 
-  hidePassword() {
+  hidePassword(): void {
     this.hiddenPassword = !this.hiddenPassword;
   }
 
@@ -43,7 +43,7 @@ export class LoginComponent {
       password: this.loginForm.value.password
     }
 
-    this.loginService.login(loginForm.user, loginForm.password).subscribe({
+    this.AuthService.login(loginForm.user, loginForm.password).subscribe({
       next: (data) => {
         if (data.exists) {
           console.log(data);

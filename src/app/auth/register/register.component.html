@@ -1,1 +1,75 @@
-<p>register works!</p>
+<div class="card-container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Registro</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <form class="form-custom" [formGroup]="registerForm" (ngSubmit)="register()">
+
+                <mat-form-field class="input-custom">
+                    <mat-label>Nombre de Usuario</mat-label>
+                    <input matInput placeholder="Ingrese su nombre de usuario..." formControlName="user">
+                    <mat-icon matPrefix>person</mat-icon>
+                    @if (registerForm.controls.user.errors?.['required']) {
+                    <mat-error>El campo <strong>es requerido</strong></mat-error>
+                    }
+                </mat-form-field>
+
+                <mat-form-field class="input-custom">
+                    <mat-label>Nombre Completo</mat-label>
+                    <input matInput placeholder="Nombre Completo..." formControlName="fullname">
+                    <mat-icon matPrefix>person</mat-icon>
+                    @if (registerForm.controls.fullname.errors?.['required']) {
+                    <mat-error>El campo <strong>es requerido</strong></mat-error>
+                    }
+                </mat-form-field>
+
+                <mat-form-field class="input-custom">
+                    <mat-label>Correo Electronico</mat-label>
+                    <input matInput type="email" placeholder="ejemplo@gmail.com" formControlName="email">
+                    <mat-icon matPrefix>mail</mat-icon>
+                    @if (registerForm.controls.email.errors?.['required']) {
+                    <mat-error>El campo <strong>es requerido</strong></mat-error>
+                    }
+                </mat-form-field>
+
+                <mat-form-field class="input-custom">
+                    <mat-label>Contraseña</mat-label>
+                    <input matInput placeholder="Ingrese su contraseña..." formControlName="password"
+                        [type]="hiddenPassword ? 'password' : 'text'" />
+                    <mat-icon matPrefix>lock</mat-icon>
+                    <button mat-icon-button matSuffix (click)="hidePassword()" [attr.aria-label]="'Hide password'"
+                        [attr.aria-pressed]="hiddenPassword">
+                        <mat-icon matSuffix>{{hiddenPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    @if (registerForm.controls.password.errors?.['required']) {
+                    <mat-error>El campo <strong>es requerido</strong></mat-error>
+                    }
+                </mat-form-field>
+
+                <mat-form-field class="input-custom">
+                    <mat-label>Confirmar Contraseña</mat-label>
+                    <input matInput placeholder="Confirme su contraseña..." formControlName="confirmPassword"
+                        [type]="hiddenConfirmPassword ? 'password' : 'text'" />
+                    <mat-icon matPrefix>lock</mat-icon>
+                    <button mat-icon-button matSuffix (click)="hideConfirmPassword()"
+                        [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hiddenConfirmPassword">
+                        <mat-icon matSuffix>{{hiddenConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    @if (registerForm.controls.confirmPassword.errors?.['required']) {
+                    <mat-error>El campo <strong>es requerido</strong></mat-error>
+                    }
+                    @if (!passwordOk()) {
+                    <mat-error>Las <strong>contraseñas</strong> no coinciden</mat-error>
+                    }
+                </mat-form-field>
+
+                <div class="flex">
+                    <button mat-flat-button color="primary" type="submit"
+                        [disabled]="!registerForm.valid">Registrarse</button>
+                    <button mat-flat-button color="warn" routerLink="/login">Iniciar Sesión</button>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

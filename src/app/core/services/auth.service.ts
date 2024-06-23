@@ -3,11 +3,12 @@ import { Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
 import { LoginResults } from '../interfaces/login';
+import { RegisterForm, RegisterResults } from '../interfaces/register';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService {
+export class AuthService {
 
   constructor(private http: HttpClient) { }
 
@@ -15,7 +16,12 @@ export class LoginService {
     return this.http.get<LoginResults>(`${environment.notionURLBase}/login?username=${username}&password=${password}`)
   }
 
-  isAuth() {
+  isAuth(): boolean {
     return localStorage.getItem('isAuth') ? true : false;
   }
+
+  register(data: RegisterForm): Observable<RegisterResults>{
+    return this.http.post<RegisterResults>(`${environment.notionURLBase}/users`, data)
+  }
+
 }

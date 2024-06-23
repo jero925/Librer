@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { LoginService } from '../../../core/services/login.service';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -21,7 +21,7 @@ export class NavBarComponent {
     private iconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer,
     private router: Router,
-    private loginService: LoginService
+    private authService: AuthService
   ) 
   { this.iconRegistry.addSvgIcon('github', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/github.svg')) }
 
@@ -31,6 +31,6 @@ export class NavBarComponent {
   }
 
   isLoggedIn(): boolean {
-    return this.loginService.isAuth()
+    return this.authService.isAuth()
   }
 }
