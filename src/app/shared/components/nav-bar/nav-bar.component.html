@@ -4,10 +4,12 @@
         <mat-icon>menu</mat-icon>
     </button> -->
         <span>Proyecto Angular</span>
+        @if (isLoggedIn()) {
         <ul>
             <li><button mat-button routerLink="" routerLinkActive="">Libros</button></li>
             <li><button mat-button routerLink="/pokedex" routerLinkActive="active">Pokédex</button></li>
         </ul>
+        }
         <span class="example-spacer"></span>
 
         <a mat-button href="https://github.com/jero925/Librero" target="_blank" aria-label="Repositorio GitHub"
@@ -16,18 +18,23 @@
             Github
         </a>
 
+        @if (!isLoggedIn()) {
         <div id="SEPARADOR">
-            <a><button mat-button routerLink="/register" routerLinkActive="">Registro</button></a>
+            <a><button mat-button routerLink="/register" routerLinkActive="active">Registro</button></a>
             <a>/</a>
-            <a><button mat-button routerLink="/login" routerLinkActive="">Login</button></a>
+            <a><button mat-button routerLink="/login" routerLinkActive="active">Login</button></a>
         </div>
+        }
 
-        <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon" [matMenuTriggerFor]="beforeMenu">
+        @if (isLoggedIn()) {
+        <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon"
+            [matMenuTriggerFor]="beforeMenu">
             <mat-icon>person</mat-icon>
             <mat-menu #beforeMenu="matMenu" xPosition="before">
                 <button mat-menu-item>Mi cuenta</button>
-                <button mat-menu-item>Salir</button>
+                <button mat-menu-item (click)="onClickLogout()">Salir</button>
             </mat-menu>
         </button>
+        }
     </mat-toolbar>
 </nav>

@@ -3,25 +3,25 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LoginForm, LoginResults } from '../../core/interfaces/login';
 import { LoginService } from '../../core/services/login.service';
 import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
-import {MatCardModule} from '@angular/material/card';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import {MatButtonModule} from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, ReactiveFormsModule],
+  imports: [MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, ReactiveFormsModule, RouterLink],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
 
   hiddenPassword: boolean = true;
-  
+
   constructor(private formBuilder: FormBuilder, private loginService: LoginService, private router: Router) { };
 
   public loginResults$!: Observable<LoginResults>;
@@ -47,8 +47,7 @@ export class LoginComponent {
       next: (data) => {
         if (data.exists) {
           console.log(data);
-          
-          localStorage.setItem('logged', 'true')
+          localStorage.setItem('isAuth', 'true')
           this.router.navigate(['pokedex'])
         } else {
           alert("Credenciales son incorrectas");
@@ -61,9 +60,5 @@ export class LoginComponent {
         console.log(error.message);
       }
     })
-  }
-
-  register() {
-    this.router.navigate(['register'])
   }
 }
