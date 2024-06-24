@@ -1,0 +1,18 @@
+.example-card {
+    max-width: 300px;
+    /* height: 400px; */
+}
+
+img {
+    padding-top: 16px;
+    object-fit: contain;
+    width: fit-content;
+    align-self: center;
+}
+
+.truncated-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}

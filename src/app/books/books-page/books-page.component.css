@@ -1,0 +1,47 @@
+.book-search-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.book-item {
+    margin-bottom: 20px;
+}
+
+.book-item img {
+    max-height: 200px;
+    display: block;
+    margin-top: 10px;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.book-search-container {
+    max-width: none;
+}
+
+.search-bar {
+    display: flex;
+}
+
+.search-bar .mat-form-field-infix {
+    flex: 1;
+}
+
+.search-bar button {
+    margin-left: 10px;
+}
+
+#barra-busqueda {
+    width: 96.8%;
+}
+
+.responsive-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    justify-content: center;
+    justify-items: center;
+}
