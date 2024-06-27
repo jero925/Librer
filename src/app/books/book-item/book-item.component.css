@@ -1,6 +1,5 @@
 .example-card {
     max-width: 300px;
-    /* height: 400px; */
 }
 
 img {
@@ -8,6 +7,11 @@ img {
     object-fit: contain;
     width: fit-content;
     align-self: center;
+}
+
+img:hover, mat-card-title:hover {
+    cursor: pointer;
+    transform: scale(1.1);
 }
 
 .truncated-text {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BookItemComponent } from '../book-item/book-item.component';
 import { Observable } from 'rxjs';
 import { BookItem, BookResults } from '../../core/interfaces/books';
@@ -19,7 +19,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
   templateUrl: './books-page.component.html',
   styleUrl: './books-page.component.css'
 })
-export class BooksPageComponent {
+export class BooksPageComponent implements OnInit {
 
   public booksResults$!: Observable<BookResults>;
   public currentPage: number = 0;
@@ -27,6 +27,10 @@ export class BooksPageComponent {
   public booksData?: BookItem[];
 
   constructor(private booksService: BooksService) { };
+
+  ngOnInit(): void {
+      this.searchBooks('mistborn')
+  }
 
   handlePageEvent(pageEvent: PageEvent, bookName) {
     console.log('handlePageEvent', pageEvent);

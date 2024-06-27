@@ -1,0 +1,75 @@
+img {
+    object-fit: cover;
+    width: 100%;
+}
+
+mat-grid-tile button {
+    width: 100%;
+}
+
+h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.col-1 {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+}
+
+.book-image {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 16px;
+}
+
+.col-1 button {
+    width: 100%;
+}
+
+.col-2 {
+    padding-left: 24px;
+    width: 75%;
+}
+
+.flex {
+    display: flex;
+}
+
+.btn-close {
+    float: right;
+    margin: 5px;
+}
+
+header {
+    margin-bottom: 16px;
+}
+
+.book-description {
+    font-size: 1rem;
+    margin-top: 8px;
+}
+
+.additional-info {
+    margin-top: 16px;
+}
+
+.additional-info mat-form-field {
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+mat-dialog-actions {
+    padding: 16px;
+}
+
+mat-dialog-actions[align="end"] {
+    justify-content: flex-end;
+}

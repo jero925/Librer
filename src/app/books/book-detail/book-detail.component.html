@@ -1,1 +1,46 @@
-<p>book-detail works!</p>
+<div class="container responsive-grid">
+  <button mat-icon-button mat-dialog-close class="btn-close">
+    <mat-icon>close</mat-icon>
+  </button>
+  <mat-dialog-content class="flex w-100">
+    <div class="col-1 book-image-container">
+      <img src={{data.imageLinks.thumbnail}} alt="Book Image" class="book-image">
+    </div>
+    <div class="col-2">
+      <header>
+        <h2>{{ data.title }}</h2>
+      </header>
+      <a>{{ data.authors.join(', ') }}</a>
+      <div class="additional-info">
+        <mat-form-field appearance="outline">
+          <mat-label>Option 1</mat-label>
+          <mat-select>
+            <mat-option value="1">Option 1</mat-option>
+            <mat-option value="2">Option 2</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Option 2</mat-label>
+          <mat-select>
+            <mat-option value="1">Option 1</mat-option>
+            <mat-option value="2">Option 2</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Option 3</mat-label>
+          <mat-select>
+            <mat-option value="1">Option 1</mat-option>
+            <mat-option value="2">Option 2</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="actions">
+        <button mat-flat-button color="primary">Agregar</button>
+        <button mat-button mat-dialog-close>Cancelar</button>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Close</button>
+  </mat-dialog-actions>
+</div>
