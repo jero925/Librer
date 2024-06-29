@@ -1,17 +1,38 @@
 .example-card {
-    max-width: 300px;
+    width: 250px;
+    height: 100%;
+    box-shadow: 0 .125rem .25rem 0 rgba(0,0,0,.13),0 0 .0625rem 0 rgba(0,0,0,.11);
+    display: flex;
+}
+
+.example-card::before{
+    content: " ";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    box-shadow: 0 .1875rem .4375rem 0 rgba(0,0,0,.13),0 .0625rem .125rem 0 rgba(0,0,0,.11)!important;
+    opacity: 0;
+    transition: opacity .2s;    
+}
+
+.example-card:focus::before, .example-card:hover::before {
+    opacity: 1;
+}
+
+.example-card mat-card-header {
+    height: -webkit-fill-available;
+}
+
+.img-flex {
+    min-height: 380px;
 }
 
 img {
-    padding-top: 16px;
-    object-fit: contain;
-    width: fit-content;
+    object-fit: cover;
+    width: 100%;
     align-self: center;
-}
-
-img:hover, mat-card-title:hover {
-    cursor: pointer;
-    transform: scale(1.1);
 }
 
 .truncated-text {
