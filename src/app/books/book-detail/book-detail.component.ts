@@ -46,20 +46,22 @@ export class BookDetailComponent implements OnInit {
   ngOnInit(): void {
     this.isbn13 = this.bookService.getISBN_13(this.data)
     this.notionBookService.getBookByISBN13(this.isbn13).subscribe((res => {
-      this.existeLibro = true;
-      this.notionBookData = res
-
+      if (!res.message) {
+        this.existeLibro = true;
+        this.notionBookData = res
+  
+      }
       this.getComboBoxValues()
-      
     }))
   }
   
   getComboBoxValues() {
     this.notionBookService.getSelectOptions().subscribe((res: NotionBookOptionsResults) => {
       this.comboBoxValues = res
-      const { Estado } = this.notionBookData
-      this.comboEstado = Estado.id
-      
+      if (this.notionBookData) {
+        const { Estado } = this.notionBookData
+        this.comboEstado = Estado.id
+      }
     })
   }
 }
