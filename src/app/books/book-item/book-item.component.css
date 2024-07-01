@@ -21,6 +21,10 @@
     opacity: 1;
 }
 
+mat-card-title {
+    cursor: pointer;
+}
+
 .example-card mat-card-header {
     height: -webkit-fill-available;
 }
@@ -31,8 +35,10 @@
 
 img {
     object-fit: cover;
+    height: 380px;
     width: 100%;
     align-self: center;
+    cursor: pointer;
 }
 
 .truncated-text {

@@ -13,34 +13,32 @@
       <a>{{ data.authors.join(', ') }}</a>
       <div class="additional-info">
         <mat-form-field appearance="outline">
-          <mat-label>Option 1</mat-label>
-          <mat-select>
-            <mat-option value="1">Option 1</mat-option>
-            <mat-option value="2">Option 2</mat-option>
+          <mat-label>Estado</mat-label>
+          <mat-select [value]="comboEstado">
+            <mat-option [value]=""></mat-option>
+            @if (comboBoxValues) {
+            @for (option of comboBoxValues.Estado; track $index) {
+            <mat-option [value]="option.id">{{option.value}}</mat-option>
+            }
+            }
           </mat-select>
         </mat-form-field>
         <mat-form-field appearance="outline">
-          <mat-label>Option 2</mat-label>
-          <mat-select>
-            <mat-option value="1">Option 1</mat-option>
-            <mat-option value="2">Option 2</mat-option>
+          <mat-label>Puntaje</mat-label>
+          <mat-select [value]="comboPuntaje">
+            <mat-option [value]=""></mat-option>
+            @if (comboBoxValues) {
+            @for (option of comboBoxValues.Puntaje; track $index) {
+            <mat-option [value]="option.id">{{option.value}}</mat-option>
+            }
+            }
           </mat-select>
         </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Option 3</mat-label>
-          <mat-select>
-            <mat-option value="1">Option 1</mat-option>
-            <mat-option value="2">Option 2</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="actions">
-        <button mat-flat-button color="primary">Agregar</button>
-        <button mat-button mat-dialog-close>Cancelar</button>
       </div>
     </div>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
+    <button mat-flat-button color="primary">{{ existeLibro ? 'Editar' : 'Agregar'}}</button>
     <button mat-button mat-dialog-close>Close</button>
   </mat-dialog-actions>
 </div>

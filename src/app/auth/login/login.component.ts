@@ -48,7 +48,7 @@ export class LoginComponent {
         if (data.exists) {
           console.log(data);
           localStorage.setItem('isAuth', 'true')
-          this.router.navigate(['pokedex'])
+          this.router.navigate(['books'])
         } else {
           alert("Credenciales son incorrectas");
           this.loginForm.patchValue({
