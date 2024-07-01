@@ -9,3 +9,8 @@ export interface SelectOption {
     id: string;
     name: string;
 }
+
+export interface SelectNombre {
+    id: string;
+    nombre: string;
+}

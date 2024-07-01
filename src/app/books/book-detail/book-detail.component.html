@@ -24,6 +24,17 @@
           </mat-select>
         </mat-form-field>
         <mat-form-field appearance="outline">
+          <mat-label>Género</mat-label>
+          <mat-select [value]="comboGenres">
+            <mat-option [value]=""></mat-option>
+            @if (genres) {
+            @for (genre of genres; track $index) {
+            <mat-option [value]="genre.id">{{genre.nombre}}</mat-option>
+            }
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
           <mat-label>Puntaje</mat-label>
           <mat-select [value]="comboPuntaje">
             <mat-option [value]=""></mat-option>

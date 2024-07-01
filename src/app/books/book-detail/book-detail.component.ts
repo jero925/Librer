@@ -15,7 +15,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { NotionBooksService } from '../../core/services/notion-books.service';
 import { NotionBookItem } from '../../core/interfaces/notion_books/notion-books';
 import { BooksService } from '../../core/services/books.service';
-import { NotionBookOptionsResults } from '../../core/interfaces/notion_books/select_options';
+import { NotionBookOptionsResults, SelectNombre, SelectOption } from '../../core/interfaces/notion_books/select_options';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
@@ -41,6 +41,9 @@ export class BookDetailComponent implements OnInit {
   public comboPuntaje: string;
   public comboEstado: string;
 
+  public genres: SelectNombre[];
+  public comboGenres: string;
+
   constructor(private notionBookService: NotionBooksService, private bookService: BooksService) { }
 
   ngOnInit(): void {
@@ -49,9 +52,11 @@ export class BookDetailComponent implements OnInit {
       if (!res.message) {
         this.existeLibro = true;
         this.notionBookData = res
-  
+        console.log(this.notionBookData);
+        
       }
       this.getComboBoxValues()
+      this.getGenres()
     }))
   }
   
@@ -63,5 +68,19 @@ export class BookDetailComponent implements OnInit {
         this.comboEstado = Estado.id
       }
     })
+  }
+
+  getGenres() {
+    this.notionBookService.getGenres().subscribe((res) => {
+      // console.log(res);
+      
+      this.genres = res
+      console.log(this.genres);
+      
+      if (this.notionBookData) {
+        const { Genre } = this.notionBookData
+        this.comboGenres = Genre[0]
+      }
+    })    
   }
 }

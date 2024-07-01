@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { NotionBookItem, NotionBooks } from '../interfaces/notion_books/notion-books';
 import { environment } from '../../../environments/environment.development';
 import { Observable, catchError, map, of } from 'rxjs';
-import { NotionBookOptionsResults } from '../interfaces/notion_books/select_options';
+import { NotionBookOptionsResults, SelectNombre, SelectOption } from '../interfaces/notion_books/select_options';
 
 @Injectable({
   providedIn: 'root'
@@ -20,10 +20,13 @@ export class NotionBooksService {
     return this.http.get<NotionBookItem>(`${environment.notionURLBase}/books/${ISBN_13}`)
   }
 
-  getSelectOptions() {
+  getSelectOptions(): Observable<NotionBookOptionsResults> {
     return this.http.get<NotionBookOptionsResults>(`${environment.notionURLBase}/books/retrieve`)
   }
 
+  getGenres(): Observable<SelectNombre[]> {
+    return this.http.get<SelectNombre[]>(`${environment.notionURLBase}/books/genres`)
+  }
   checkBookExists(ISBN_13: string): Observable<boolean> {
     return this.http.get<NotionBooks>(`${environment.notionURLBase}/books/${ISBN_13}`)
       .pipe(
