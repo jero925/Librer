@@ -17,6 +17,7 @@ import { NotionBookItem } from '../../core/interfaces/notion_books/notion-books'
 import { BooksService } from '../../core/services/books.service';
 import { NotionBookOptionsResults, SelectNombre, SelectOption } from '../../core/interfaces/notion_books/select_options';
 import { AsyncPipe } from '@angular/common';
+import { NewBook } from '../../core/interfaces/notion_books/create_book';
 
 @Component({
   selector: 'app-book-detail',
@@ -41,6 +42,8 @@ export class BookDetailComponent implements OnInit {
   public comboPuntaje: string;
   public comboEstado: string;
 
+  public selectPuntaje: string;
+
   public genres: SelectNombre[];
   public comboGenres: string;
 
@@ -53,13 +56,13 @@ export class BookDetailComponent implements OnInit {
         this.existeLibro = true;
         this.notionBookData = res
         console.log(this.notionBookData);
-        
+
       }
       this.getComboBoxValues()
       this.getGenres()
     }))
   }
-  
+
   getComboBoxValues() {
     this.notionBookService.getSelectOptions().subscribe((res: NotionBookOptionsResults) => {
       this.comboBoxValues = res
@@ -73,14 +76,35 @@ export class BookDetailComponent implements OnInit {
   getGenres() {
     this.notionBookService.getGenres().subscribe((res) => {
       // console.log(res);
-      
+
       this.genres = res
       console.log(this.genres);
-      
+
       if (this.notionBookData) {
         const { Genre } = this.notionBookData
         this.comboGenres = Genre[0]
       }
-    })    
+    })
+  }
+
+  onClick() {
+    const { title, authors, imageLinks, pageCount } = this.data;
+    const newBook: NewBook = {
+      "icon": imageLinks.thumbnail,
+      "cover": imageLinks.thumbnail,
+      "parent": "",
+      "name": title,
+      "author": authors,
+      "pages": pageCount,
+      "status": "",
+      "isbn_13": this.isbn13,
+      "year": ["f1d456cd-efcb-4ce1-a9cc-2ec1b5b3dc19"],
+      "start_end": "2024-07-01",
+      "score": "",
+      "genre": []
+    }
+    // const estadoSelect = this.selectPuntaje.value
+    console.log(newBook);
+    
   }
 }

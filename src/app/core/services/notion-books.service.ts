@@ -4,6 +4,7 @@ import { NotionBookItem, NotionBooks } from '../interfaces/notion_books/notion-b
 import { environment } from '../../../environments/environment.development';
 import { Observable, catchError, map, of } from 'rxjs';
 import { NotionBookOptionsResults, SelectNombre, SelectOption } from '../interfaces/notion_books/select_options';
+import { NewBook } from '../interfaces/notion_books/create_book';
 
 @Injectable({
   providedIn: 'root'
@@ -33,5 +34,9 @@ export class NotionBooksService {
         map(() => true),
         catchError(() => of(false)) 
       );
+  }
+
+  createBook(body: NewBook): Observable<NotionBooks> {
+    return this.http.post<NotionBooks>(`${environment.notionURLBase}/books`, body)
   }
 }
