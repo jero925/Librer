@@ -18,11 +18,26 @@ import { BooksService } from '../../core/services/books.service';
 import { NotionBookOptionsResults, SelectNombre, SelectOption } from '../../core/interfaces/notion_books/select_options';
 import { AsyncPipe } from '@angular/common';
 import { NewBook } from '../../core/interfaces/notion_books/create_book';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-book-detail',
   standalone: true,
-  imports: [MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatButtonModule, MatGridListModule, MatGridTileText, MatIconModule, MatFormFieldModule, MatSelectModule, AsyncPipe],
+  imports: [
+    MatDialogTitle,
+    MatDialogContent,
+    MatDialogActions,
+    MatDialogClose,
+    MatButtonModule,
+    MatGridListModule, 
+    MatGridTileText,
+    MatIconModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    AsyncPipe,
+    FormsModule,
+    ReactiveFormsModule
+  ],
   templateUrl: './book-detail.component.html',
   styleUrl: './book-detail.component.css'
 })
@@ -38,16 +53,39 @@ export class BookDetailComponent implements OnInit {
   public notionBookData?: NotionBookItem
   public isbn13: string | null
 
+  //Inicialización de FormControl
+  public scoreControl: FormControl = new FormControl('')
+  public genreControl: FormControl = new FormControl('')
+  public statusControl: FormControl = new FormControl('')
+
+  //Utilizados para el poblado de los combo-box
+  public genres: SelectNombre[];
   public comboBoxValues: NotionBookOptionsResults
+
+  //Nombres Combo-box
   public comboPuntaje: string;
   public comboEstado: string;
-
-  public selectPuntaje: string;
-
-  public genres: SelectNombre[];
   public comboGenres: string;
+  
+  // //Valores de los Combo-Box
+  public scoreValue: string | null;
+  public statusValue: string;
+  public genreValue: string;
 
-  constructor(private notionBookService: NotionBooksService, private bookService: BooksService) { }
+
+  constructor(private notionBookService: NotionBooksService, private bookService: BooksService) { 
+    this.scoreControl.valueChanges.subscribe((value) => {
+      this.scoreValue = value
+    });
+
+    this.statusControl.valueChanges.subscribe((value) => {
+      this.statusValue = value
+    });
+
+    this.genreControl.valueChanges.subscribe((value) => {
+      this.genreValue = value
+    });
+  }
 
   ngOnInit(): void {
     this.isbn13 = this.bookService.getISBN_13(this.data)
@@ -96,15 +134,16 @@ export class BookDetailComponent implements OnInit {
       "name": title,
       "author": authors,
       "pages": pageCount,
-      "status": "",
+      "status": this.statusValue,
       "isbn_13": this.isbn13,
       "year": ["f1d456cd-efcb-4ce1-a9cc-2ec1b5b3dc19"],
       "start_end": "2024-07-01",
-      "score": "",
-      "genre": []
+      "score": this.scoreValue,
+      "genre": [this.genreValue]
     }
     // const estadoSelect = this.selectPuntaje.value
     console.log(newBook);
     
   }
+
 }

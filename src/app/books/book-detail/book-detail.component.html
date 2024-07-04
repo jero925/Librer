@@ -14,18 +14,18 @@
       <div class="additional-info">
         <mat-form-field appearance="outline">
           <mat-label>Estado</mat-label>
-          <mat-select [value]="comboEstado">
+          <mat-select [value]="comboEstado" [formControl]="statusControl">
             <mat-option [value]=""></mat-option>
             @if (comboBoxValues) {
             @for (option of comboBoxValues.Estado; track $index) {
-            <mat-option [value]="option.id">{{option.value}}</mat-option>
+            <mat-option [value]="option.value">{{option.value}}</mat-option>
             }
             }
           </mat-select>
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>Género</mat-label>
-          <mat-select [value]="comboGenres">
+          <mat-select [value]="comboGenres" [formControl]="genreControl">
             <mat-option [value]=""></mat-option>
             @if (genres) {
             @for (genre of genres; track $index) {
@@ -36,11 +36,11 @@
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>Puntaje</mat-label>
-          <mat-select [value]="comboPuntaje">
+          <mat-select [value]="comboPuntaje" [formControl]="scoreControl">
             <mat-option [value]=""></mat-option>
             @if (comboBoxValues) {
             @for (option of comboBoxValues.Puntaje; track $index) {
-            <mat-option [value]="option.id">{{option.value}}</mat-option>
+            <mat-option [value]="option.value">{{option.value}}</mat-option>
             }
             }
           </mat-select>
