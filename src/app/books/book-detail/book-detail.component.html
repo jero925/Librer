@@ -23,6 +23,7 @@
             }
           </mat-select>
         </mat-form-field>
+
         <mat-form-field appearance="outline">
           <mat-label>Género</mat-label>
           <mat-select [value]="comboGenres" [formControl]="genreControl">
@@ -34,17 +35,39 @@
             }
           </mat-select>
         </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Puntaje</mat-label>
-          <mat-select [value]="comboPuntaje" [formControl]="scoreControl">
-            <mat-option [value]=""></mat-option>
-            @if (comboBoxValues) {
-            @for (option of comboBoxValues.Puntaje; track $index) {
-            <mat-option [value]="option.value">{{option.value}}</mat-option>
-            }
-            }
-          </mat-select>
-        </mat-form-field>
+
+        <div>
+
+          <div class="date-container">
+            <mat-form-field>
+              <mat-label>Inicio</mat-label>
+              <input matInput [matDatepicker]="startDate" (dateChange)="changeStartDate($event)">
+              <mat-hint>DD/MM/YYYY</mat-hint>
+              <mat-datepicker-toggle matIconSuffix [for]="startDate"></mat-datepicker-toggle>
+              <mat-datepicker #startDate></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Fin</mat-label>
+              <input matInput [matDatepicker]="endDate">
+              <mat-hint>DD/MM/YYYY</mat-hint>
+              <mat-datepicker-toggle matIconSuffix [for]="endDate"></mat-datepicker-toggle>
+              <mat-datepicker #endDate></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Puntaje</mat-label>
+            <mat-select [value]="comboPuntaje" [formControl]="scoreControl">
+              <mat-option [value]=""></mat-option>
+              @if (comboBoxValues) {
+              @for (option of comboBoxValues.Puntaje; track $index) {
+              <mat-option [value]="option.value">{{option.value}}</mat-option>
+              }
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
       </div>
     </div>
   </mat-dialog-content>
