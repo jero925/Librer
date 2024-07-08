@@ -39,4 +39,8 @@ export class NotionBooksService {
   createBook(body: NewBook): Observable<NotionBooks> {
     return this.http.post<NotionBooks>(`${environment.notionURLBase}/books`, body)
   }
+
+  getProperty(options: SelectOption[], filter){
+    return options.filter(option => option.value.toLowerCase() === filter.toLowerCase())
+  }
 }

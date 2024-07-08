@@ -7,7 +7,7 @@ export interface NotionBookOptionsResults {
 
 export interface SelectOption {
     id: string;
-    name: string;
+    value: string;
 }
 
 export interface SelectNombre {

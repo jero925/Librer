@@ -23,7 +23,7 @@ import {
   SelectNombre,
   SelectOption,
 } from '../../core/interfaces/notion_books/select_options';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, formatDate } from '@angular/common';
 import { NewBook } from '../../core/interfaces/notion_books/create_book';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -33,6 +33,7 @@ import {
   provideNativeDateAdapter,
 } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
+import { convertStringToDate } from '../../shared/utils/string-to-date';
 
 @Component({
   selector: 'app-book-detail',
@@ -61,6 +62,7 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class BookDetailComponent implements OnInit {
   public existeLibro: boolean = false;
+  public isEnded: boolean = false;
 
   readonly data = inject<VolumeInfo>(MAT_DIALOG_DATA);
   public authors = computed(() => {
@@ -71,11 +73,14 @@ export class BookDetailComponent implements OnInit {
   public notionBookData?: NotionBookItem;
   public isbn13: string | null;
 
+  //Fechas
+  selectedStartDate = signal<string>('')
+
   //Inicialización de FormControl
   public scoreControl: FormControl = new FormControl('');
   public genreControl: FormControl = new FormControl('');
   public statusControl: FormControl = new FormControl('');
-
+  public startedDateControl: FormControl<Date> = new FormControl<Date>(null);
   //Utilizados para el poblado de los combo-box
   public genres: SelectNombre[];
   public comboBoxValues: NotionBookOptionsResults;
@@ -89,9 +94,6 @@ export class BookDetailComponent implements OnInit {
   public scoreValue: string | null;
   public statusValue: string;
   public genreValue: string;
-
-  //Fechas
-  selectedStartDate = signal<string>('')
 
   constructor(
     private notionBookService: NotionBooksService,
@@ -109,8 +111,6 @@ export class BookDetailComponent implements OnInit {
     this.genreControl.valueChanges.subscribe((value) => {
       this.genreValue = value;
     });
-
-    effect( () => {console.log('Fecha: ' + this.selectedStartDate())})
   }
 
   ngOnInit(): void {
@@ -120,6 +120,10 @@ export class BookDetailComponent implements OnInit {
         this.existeLibro = true;
         this.notionBookData = res;
         console.log(this.notionBookData);
+
+        const startedDateString = formatDate(res['Start and End'], 'dd/M/yyyy', 'en-US')
+        this.selectedStartDate.set(startedDateString)
+        this.startedDateControl.setValue(convertStringToDate(this.selectedStartDate()))
       }
       this.getComboBoxValues();
       this.getGenres();
@@ -140,6 +144,9 @@ export class BookDetailComponent implements OnInit {
         if (this.notionBookData) {
           const { Estado } = this.notionBookData;
           this.comboEstado = Estado.id;
+          console.log(this.comboBoxValues.Estado);
+          
+          console.log(this.notionBookService.getProperty(this.comboBoxValues.Estado, 'leido'));
         }
       });
   }
@@ -158,7 +165,8 @@ export class BookDetailComponent implements OnInit {
   }
 
   changeStartDate(event: MatDatepickerInputEvent<Date>) {
-    this.selectedStartDate.update(events => `${event.value.toJSON()}`);
+    const formatedStartDate = formatDate(event.value, 'yyyy-MM-dd', 'en-US');
+    this.selectedStartDate.set(formatedStartDate);
   }
 
   onClick() {
@@ -173,7 +181,7 @@ export class BookDetailComponent implements OnInit {
       status: this.statusValue,
       isbn_13: this.isbn13,
       year: ['f1d456cd-efcb-4ce1-a9cc-2ec1b5b3dc19'],
-      start_end: '2024-07-01',
+      start_end: this.selectedStartDate(),
       score: this.scoreValue,
       genre: [this.genreValue],
     };

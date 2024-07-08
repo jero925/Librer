@@ -41,12 +41,14 @@
           <div class="date-container">
             <mat-form-field>
               <mat-label>Inicio</mat-label>
-              <input matInput [matDatepicker]="startDate" (dateChange)="changeStartDate($event)">
+              <input matInput [matDatepicker]="startDate" [value]="startedDateControl.value"
+                (dateChange)="changeStartDate($event)">
               <mat-hint>DD/MM/YYYY</mat-hint>
               <mat-datepicker-toggle matIconSuffix [for]="startDate"></mat-datepicker-toggle>
               <mat-datepicker #startDate></mat-datepicker>
             </mat-form-field>
 
+            @if (isEnded) {
             <mat-form-field>
               <mat-label>Fin</mat-label>
               <input matInput [matDatepicker]="endDate">
@@ -54,8 +56,9 @@
               <mat-datepicker-toggle matIconSuffix [for]="endDate"></mat-datepicker-toggle>
               <mat-datepicker #endDate></mat-datepicker>
             </mat-form-field>
+            }
           </div>
-
+          @if (isEnded) {
           <mat-form-field appearance="outline">
             <mat-label>Puntaje</mat-label>
             <mat-select [value]="comboPuntaje" [formControl]="scoreControl">
@@ -67,6 +70,7 @@
               }
             </mat-select>
           </mat-form-field>
+          }
         </div>
       </div>
     </div>

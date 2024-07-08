@@ -78,3 +78,7 @@ mat-dialog-actions[align="end"] {
   display: flex;
   gap: 8px;
 }
+
+.date-container mat-form-field {
+  max-width: 50%;
+}
