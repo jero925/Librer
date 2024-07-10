@@ -100,16 +100,19 @@ export class BookDetailComponent implements OnInit {
     private bookService: BooksService,
     private _snackBar: MatSnackBar
   ) {
-    this.scoreControl.valueChanges.subscribe((value) => {
-      this.scoreValue = value;
-    });
-
     this.statusControl.valueChanges.subscribe((value) => {
       this.statusValue = value;
+      this.isEnded = this.checkBookIsEnded()
+      console.log(this.isEnded);
+      
     });
 
     this.genreControl.valueChanges.subscribe((value) => {
       this.genreValue = value;
+    });
+
+    this.scoreControl.valueChanges.subscribe((value) => {
+      this.scoreValue = value;
     });
   }
 
@@ -119,7 +122,7 @@ export class BookDetailComponent implements OnInit {
       if (!res.message) {
         this.existeLibro = true;
         this.notionBookData = res;
-        console.log(this.notionBookData);
+        // console.log(this.notionBookData);
 
         const startedDateString = formatDate(res['Start and End'], 'dd/M/yyyy', 'en-US')
         this.selectedStartDate.set(startedDateString)
@@ -127,7 +130,12 @@ export class BookDetailComponent implements OnInit {
       }
       this.getComboBoxValues();
       this.getGenres();
+      this.isEnded = this.checkBookIsEnded()
     });
+  }
+
+  checkBookIsEnded() {
+    return true ? this.statusValue === 'Leido' : false;
   }
 
   openSnackBar(message: string, action: string) {
@@ -143,10 +151,8 @@ export class BookDetailComponent implements OnInit {
         this.comboBoxValues = res;
         if (this.notionBookData) {
           const { Estado } = this.notionBookData;
-          this.comboEstado = Estado.id;
-          console.log(this.comboBoxValues.Estado);
-          
-          console.log(this.notionBookService.getProperty(this.comboBoxValues.Estado, 'leido'));
+          this.comboEstado = Estado.value;
+          console.log(this.comboEstado);
         }
       });
   }
@@ -155,10 +161,12 @@ export class BookDetailComponent implements OnInit {
     this.notionBookService.getGenres().subscribe((res) => {
 
       this.genres = res;
-      console.log(this.genres);
+      // console.log(this.genres);
 
       if (this.notionBookData) {
         const { Genre } = this.notionBookData;
+        console.log(Genre);
+        
         this.comboGenres = Genre[0];
       }
     });
@@ -186,7 +194,7 @@ export class BookDetailComponent implements OnInit {
       genre: [this.genreValue],
     };
     // const estadoSelect = this.selectPuntaje.value
-    console.log(newBook);
+    // console.log(newBook);
     this.notionBookService.createBook(newBook).subscribe((res) => {
       this.existeLibro = true;
       this.openSnackBar(res.message, 'Ocultar');
