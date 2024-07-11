@@ -26,8 +26,8 @@ export class NavBarComponent {
   { this.iconRegistry.addSvgIcon('github', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/github.svg')) }
 
   onClickLogout() {
-    localStorage.removeItem('isAuth');
-    this.router.navigate(['/login'])
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 
   isLoggedIn(): boolean {

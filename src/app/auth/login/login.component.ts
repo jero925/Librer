@@ -39,15 +39,13 @@ export class LoginComponent {
     if (this.loginForm.invalid) return
 
     const loginForm: LoginForm = {
-      user: this.loginForm.value.user,
+      username: this.loginForm.value.user,
       password: this.loginForm.value.password
     }
 
-    this.AuthService.login(loginForm.user, loginForm.password).subscribe({
+    this.AuthService.login(loginForm).subscribe({
       next: (data) => {
         if (data.exists) {
-          console.log(data);
-          localStorage.setItem('isAuth', 'true')
           this.router.navigate(['books'])
         } else {
           alert("Credenciales son incorrectas");

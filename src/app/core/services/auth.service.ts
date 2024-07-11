@@ -15,7 +15,7 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  private getToken = (): string | null => localStorage.getItem(this.tokenKey) || '';
+  getToken = (): string | null => localStorage.getItem(this.tokenKey) || '';
 
   private isTokenExpired() {
     const token = this.getToken();
