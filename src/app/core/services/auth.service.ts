@@ -1,27 +1,53 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
-import { LoginResults } from '../interfaces/login';
+import { LoginResults, LoginForm } from '../interfaces/login';
 import { RegisterForm, RegisterResults } from '../interfaces/register';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
+  private tokenKey = 'token'
+
   constructor(private http: HttpClient) { }
 
-  login(username: string, password: string): Observable<LoginResults> {
-    return this.http.get<LoginResults>(`${environment.notionURLBase}/login?username=${username}&password=${password}`)
+  private getToken = (): string | null => localStorage.getItem(this.tokenKey) || '';
+
+  private isTokenExpired() {
+    const token = this.getToken();
+    if (!token) return true;
+    const decoded = jwtDecode(token);
+    const isTokenExpired = Date.now() >= decoded['exp']! * 1000;
+    if (isTokenExpired) this.logout();
+    return isTokenExpired;
+  }
+
+  login(data: LoginForm): Observable<LoginResults> {
+    return this.http.post<LoginResults>(`${environment.notionURLBase}/login`, data)
+    .pipe(map((res) => {
+      if (res.exists) {
+        localStorage.setItem(this.tokenKey, res.token);
+      }
+      return res;
+    }))
   }
 
   isAuth(): boolean {
-    return localStorage.getItem('isAuth') ? true : false;
+    const token = this.getToken();
+    if (!token) return false;
+    return !this.isTokenExpired();
   }
 
   register(data: RegisterForm): Observable<RegisterResults>{
     return this.http.post<RegisterResults>(`${environment.notionURLBase}/users`, data)
   }
+
+  logout = (): void => {
+    localStorage.removeItem(this.tokenKey);
+  };
 
 }

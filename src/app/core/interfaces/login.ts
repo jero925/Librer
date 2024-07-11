@@ -5,8 +5,8 @@ export interface LoginForm {
 
 export interface LoginResults {
     exists:  boolean;
-    message: string;
-    user:    User[];
+    message?: string;
+    token:    string;
 }
 
 export interface User {
