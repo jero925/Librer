@@ -16,7 +16,7 @@ export interface NotionBookItem {
     "Total pags":    null;
     Type:            SelectProperty[];
     icon:            Icon;
-    id:              string;
+    page_id:         string;
 }
 
 export interface Icon {

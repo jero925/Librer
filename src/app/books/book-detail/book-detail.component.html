@@ -37,8 +37,8 @@
         </mat-form-field>
 
         <div>
-
           <div class="date-container">
+            @if (isStarted || isEnded) {
             <mat-form-field>
               <mat-label>Inicio</mat-label>
               <input matInput [matDatepicker]="startDate" [value]="startedDateControl.value"
@@ -47,6 +47,7 @@
               <mat-datepicker-toggle matIconSuffix [for]="startDate"></mat-datepicker-toggle>
               <mat-datepicker #startDate></mat-datepicker>
             </mat-form-field>
+            }
 
             @if (isEnded) {
             <mat-form-field>
@@ -77,6 +78,9 @@
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-flat-button color="primary" (click)="onClick()">{{ existeLibro ? 'Editar' : 'Agregar'}}</button>
-    <button mat-button mat-dialog-close>Close</button>
+    @if (existeLibro) {
+    <button mat-stroked-button (click)="onClickDelete()">Eliminar</button>
+    }
+    <button mat-button mat-dialog-close>Cerrar</button>
   </mat-dialog-actions>
 </div>

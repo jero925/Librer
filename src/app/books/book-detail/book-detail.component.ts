@@ -20,8 +20,7 @@ import { NotionBookItem } from '../../core/interfaces/notion_books/notion-books'
 import { BooksService } from '../../core/services/books.service';
 import {
   NotionBookOptionsResults,
-  SelectNombre,
-  SelectOption,
+  SelectNombre
 } from '../../core/interfaces/notion_books/select_options';
 import { AsyncPipe, formatDate } from '@angular/common';
 import { NewBook } from '../../core/interfaces/notion_books/create_book';
@@ -33,7 +32,7 @@ import {
   provideNativeDateAdapter,
 } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
-import { convertStringToDate } from '../../shared/utils/string-to-date';
+import { convertStringToDateAR, convertStringToDateNotion } from '../../shared/utils/string-to-date';
 
 @Component({
   selector: 'app-book-detail',
@@ -62,6 +61,7 @@ import { convertStringToDate } from '../../shared/utils/string-to-date';
 })
 export class BookDetailComponent implements OnInit {
   public existeLibro: boolean = false;
+  public isStarted: boolean = false;
   public isEnded: boolean = false;
 
   readonly data = inject<VolumeInfo>(MAT_DIALOG_DATA);
@@ -102,9 +102,8 @@ export class BookDetailComponent implements OnInit {
   ) {
     this.statusControl.valueChanges.subscribe((value) => {
       this.statusValue = value;
-      this.isEnded = this.checkBookIsEnded()
-      console.log(this.isEnded);
-      
+      this.isEnded = this.checkBookStatus('Leido')
+      this.isStarted = this.checkBookStatus('Reading')      
     });
 
     this.genreControl.valueChanges.subscribe((value) => {
@@ -122,20 +121,20 @@ export class BookDetailComponent implements OnInit {
       if (!res.message) {
         this.existeLibro = true;
         this.notionBookData = res;
-        // console.log(this.notionBookData);
+        console.log(this.notionBookData);
 
-        const startedDateString = formatDate(res['Start and End'], 'dd/M/yyyy', 'en-US')
+        const startedDateString = formatDate(res['Start and End'], 'dd/MM/yyyy', 'en-US')
         this.selectedStartDate.set(startedDateString)
-        this.startedDateControl.setValue(convertStringToDate(this.selectedStartDate()))
+        this.startedDateControl.setValue(convertStringToDateAR(this.selectedStartDate()))
       }
       this.getComboBoxValues();
       this.getGenres();
-      this.isEnded = this.checkBookIsEnded()
+      this.isEnded = this.checkBookStatus('Leido')
     });
   }
 
-  checkBookIsEnded() {
-    return true ? this.statusValue === 'Leido' : false;
+  checkBookStatus(status) {
+    return true ? this.statusValue === status : false;
   }
 
   openSnackBar(message: string, action: string) {
@@ -152,7 +151,6 @@ export class BookDetailComponent implements OnInit {
         if (this.notionBookData) {
           const { Estado } = this.notionBookData;
           this.comboEstado = Estado.value;
-          console.log(this.comboEstado);
         }
       });
   }
@@ -161,12 +159,8 @@ export class BookDetailComponent implements OnInit {
     this.notionBookService.getGenres().subscribe((res) => {
 
       this.genres = res;
-      // console.log(this.genres);
-
       if (this.notionBookData) {
-        const { Genre } = this.notionBookData;
-        console.log(Genre);
-        
+        const { Genre } = this.notionBookData;        
         this.comboGenres = Genre[0];
       }
     });
@@ -178,6 +172,14 @@ export class BookDetailComponent implements OnInit {
   }
 
   onClick() {
+    if (this.existeLibro) {
+      this.onClickUpdate()
+    } else {
+      this.onClickCreate()
+    }
+  }
+
+  onClickCreate() {
     const { title, authors, imageLinks, pageCount } = this.data;
     const newBook: NewBook = {
       icon: imageLinks.thumbnail,
@@ -194,10 +196,29 @@ export class BookDetailComponent implements OnInit {
       genre: [this.genreValue],
     };
     // const estadoSelect = this.selectPuntaje.value
-    // console.log(newBook);
+    console.log(newBook);
     this.notionBookService.createBook(newBook).subscribe((res) => {
       this.existeLibro = true;
       this.openSnackBar(res.message, 'Ocultar');
     });
+  }
+
+  onClickDelete() {
+    const { page_id } = this.notionBookData
+    console.log(page_id);
+  }
+
+  onClickUpdate() {
+    console.log(this.selectedStartDate());
+    
+    const updateBook: any = {
+      parent: '',
+      status: this.statusValue,
+      year: ['f1d456cd-efcb-4ce1-a9cc-2ec1b5b3dc19'],
+      start_end: this.selectedStartDate(),
+      score: this.scoreValue,
+      genre: [this.genreValue],
+    };
+    console.log(updateBook);
   }
 }
