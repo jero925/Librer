@@ -5,6 +5,7 @@ import {
   MatDialogActions,
   MatDialogClose,
   MatDialogContent,
+  MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
 import { VolumeInfo } from '../../core/interfaces/books';
@@ -21,9 +22,9 @@ import { BooksService } from '../../core/services/books.service';
 import {
   NotionBookOptionsResults,
   SelectNombre
-} from '../../core/interfaces/notion_books/select_options';
+} from '../../core/interfaces/notion_books/select-options';
 import { AsyncPipe, formatDate } from '@angular/common';
-import { NewBook } from '../../core/interfaces/notion_books/create_book';
+import { NewBook, UpdateBook } from '../../core/interfaces/notion_books/create-update-book';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
@@ -64,6 +65,7 @@ export class BookDetailComponent implements OnInit {
   public isStarted: boolean = false;
   public isEnded: boolean = false;
 
+  readonly dialogRef = inject(MatDialogRef<BookDetailComponent>)
   readonly data = inject<VolumeInfo>(MAT_DIALOG_DATA);
   public authors = computed(() => {
     const { authors } = this.data;
@@ -103,7 +105,7 @@ export class BookDetailComponent implements OnInit {
     this.statusControl.valueChanges.subscribe((value) => {
       this.statusValue = value;
       this.isEnded = this.checkBookStatus('Leido')
-      this.isStarted = this.checkBookStatus('Reading')      
+      this.isStarted = this.checkBookStatus('Reading')
     });
 
     this.genreControl.valueChanges.subscribe((value) => {
@@ -160,7 +162,7 @@ export class BookDetailComponent implements OnInit {
 
       this.genres = res;
       if (this.notionBookData) {
-        const { Genre } = this.notionBookData;        
+        const { Genre } = this.notionBookData;
         this.comboGenres = Genre[0];
       }
     });
@@ -204,14 +206,18 @@ export class BookDetailComponent implements OnInit {
   }
 
   onClickDelete() {
-    const { page_id } = this.notionBookData
+    const { page_id } = this.notionBookData;
     console.log(page_id);
+    this.notionBookService.deleteBook(page_id).subscribe((res) => {
+      this.openSnackBar(res.message, 'Ocultar');
+      this.dialogRef.close(); // Cerrar el diálogo después de eliminar
+    });
   }
 
   onClickUpdate() {
     console.log(this.selectedStartDate());
-    
-    const updateBook: any = {
+
+    const updateBook: UpdateBook = {
       parent: '',
       status: this.statusValue,
       year: ['f1d456cd-efcb-4ce1-a9cc-2ec1b5b3dc19'],
@@ -220,5 +226,9 @@ export class BookDetailComponent implements OnInit {
       genre: [this.genreValue],
     };
     console.log(updateBook);
+    const { page_id } = this.notionBookData
+    this.notionBookService.updateBook(page_id, updateBook).subscribe((res) => {
+      this.openSnackBar(res.message, 'Ocultar');
+    });
   }
 }
